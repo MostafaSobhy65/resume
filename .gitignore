@@ -326,3 +326,7 @@ TSWLatexianTemp*
 #*Notes.bib
 out/
 static/
+
+
+# MacOS
+.DS_Store
