@@ -32,8 +32,10 @@
 %% altacv v1.6.1 Temporary fix for pdfx incompatibility; see https://tex.stackexchange.com/a/610445
 \RequirePackage{etoolbox}
 \@ifl@t@r\fmtversion{2021-06-01}%
-    {\AddToHook{package/after/xmpincl}
-    {\patchcmd\mcs@xmpincl@patchFile{\if\par}{\ifx\par}{}{\fail}}}{}
+    {\AddToHook{package/xmpincl/after}
+    {\patchcmd\mcs@xmpincl@patchFile{\if\par}{\ifx\par}{}{
+        \ClassWarningNoLine{dodiresume}{Failed to patch xmpincl for pdfx compatibility; continuing without the patch}%
+    }}}{}
 \RequirePackage[a-1b]{pdfx}
 %% altacv v1.3.3 Temporary fix for pdfx and biblatex incompatibility
 %% (Thanks to @badetitou for highlighting this issue)
@@ -203,14 +205,19 @@
 \newcommand{\cvsectionfont}{\large\bfseries\MakeUppercase}
 \newcommand{\cvsubsectionfont}{\normalsize\bfseries}
 
+%% Horizontal shift applied between name block and personal info block
+%% (useful to align contact info with the right paracol column)
+\newlength{\headerinfoshift}
+\setlength{\headerinfoshift}{0.08in}
+
 \newcommand{\makecvheader}{%
     \setlength\tabcolsep{0pt}
-    \begin{tabular}{ll}
+    \begin{tabular}{l@{\hspace{\headerinfoshift}}l}
         \raggedright
         \begin{minipage}{0.18\textwidth}  
             \begin{tikzpicture}[baseline=0]
                 \clip (0,0) circle (1.5cm);
-                \node at (-0.05,-0.2) {\includegraphics[width=6cm]{landscape_offwhite.png}};
+                \node at (-0.05,-0.2) {\includegraphics[width=6cm]{static/landscape_offwhite.png}};
             \end{tikzpicture}
         \end{minipage}\hfill
         \begin{minipage}{0.487\textwidth}
