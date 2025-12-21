@@ -31,11 +31,18 @@
 %% file more 'friendly' with copy-paste etc
 %% altacv v1.6.1 Temporary fix for pdfx incompatibility; see https://tex.stackexchange.com/a/610445
 \RequirePackage{etoolbox}
+%% TeX Live 2025: some pdfx/xcolor informational warnings are noisy but harmless.
+%% Filter only the specific known messages (keep other warnings visible).
+\RequirePackage{silence}
+\WarningFilter{xcolor}{Package option `hyperref' is obsolete and ignored}
+\WarningFilter{pdfx}{Setting all color commands to rgb}
 \@ifl@t@r\fmtversion{2021-06-01}%
-    {\AddToHook{package/xmpincl/after}
-    {\patchcmd\mcs@xmpincl@patchFile{\if\par}{\ifx\par}{}{
-        \ClassWarningNoLine{dodiresume}{Failed to patch xmpincl for pdfx compatibility; continuing without the patch}%
-    }}}{}
+    {\AddToHook{package/xmpincl/after}{%
+        \@ifundefined{mcs@xmpincl@patchFile}{}{%
+            % Try to apply the historical patch, but don't warn if it no longer applies.
+            \patchcmd\mcs@xmpincl@patchFile{\if\par}{\ifx\par}{}{}%
+        }%
+    }}{}
 \RequirePackage[a-1b]{pdfx}
 %% altacv v1.3.3 Temporary fix for pdfx and biblatex incompatibility
 %% (Thanks to @badetitou for highlighting this issue)
