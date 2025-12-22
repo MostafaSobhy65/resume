@@ -145,13 +145,9 @@
 \newcommand{\name}[1]{\def\@name{#1}}
 \newcommand{\personalinfo}[1]{\def\@personalinfo{#1}}
 \NewInfoField{email}{}[mailto:]
-\NewInfoField{mailaddress}{}
 \NewInfoField{phone}{}[tel:]
-\NewInfoField{homepage}{}[https://]
-\NewInfoField{twitter}{}[https://]
 \NewInfoField{linkedin}{}[https://]
 \NewInfoField{github}{}[https://]
-\NewInfoField{orcid}{}[https://orcid.org/]
 \NewInfoField{location}{}
 
 \newcommand{\namefont}{\bfseries\fontsize{30pt}{30pt}\selectfont}
@@ -204,44 +200,8 @@
     \ifstrequal{#4}{}{}{{\small\makebox[0.5\linewidth][l]{\MakeUppercase{#4}}}}
     \normalsize\par}
 
-\newcommand{\cvproject}[4]{
-    \vspace{6pt}
-    {\color{accent}\normalsize\textbf{#1}}\par
-    {\small\MakeUppercase{#2~--~}\textit{#3}}\par
-    \ifstrequal{#4}{}{}{\href{#4}{\small\color{GdocLink}\underline{Conference Page}}\par}}
-    
-\newcommand{\cvpub}[4]{
-    \vspace{6pt}
-    {\color{accent}\normalsize\textbf{#1}}\par
-    {\small\MakeUppercase{#2~--~}\textit{#3}}\par
-    \ifstrequal{#4}{}{}{\href{https://doi.org/#4}{\small\color{GdocLink}\underline{doi:#4}}\par}}
-    
-\newcommand{\cvgscholar}[4]{
-    \vspace{6pt}
-    {\color{accent}\normalsize\textbf{#1}}\par
-    {\small{h-index:~#2, citations:~#3}}\par
-    \ifstrequal{#4}{}{}{\href{https://scholar.google.com/citations?user=#4}{\small\color{GdocLink}\underline{profile link}}\par}}
-
-\newcommand{\cvaward}[3]{
-    \vspace{6pt}
-    {\color{accent}\normalsize\textbf{#1}}\par
-    {\small\textit{#2}}\par
-    {\small\MakeUppercase{#3}}\par}
-
-\newcommand{\cvinvolve}[3]{
-    \vspace{6pt}
-    {\color{accent}\normalsize\textbf{#1}}\par
-    {\small\MakeUppercase{#2}}\par
-    \ifstrequal{#3}{}{}{\small\textit{#3}}\par}
-
 \newcommand{\cvskill}[1]{
     \small{#1}\par}
-
-\newcommand{\cvref}[5]{%
-    \vspace{6pt}
-    \textcolor{accent}{\normalsize\textbf{#1},~#2}\par
-    {\textit{#3,~#4}}\par
-    {\href{mailto:#5}{\color{GdocLink}\underline{#5}}}\par}
 
 \newenvironment{cvcolumn}[1]{\begin{minipage}[t]{#1}\raggedright}{\end{minipage}}
 
