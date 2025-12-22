@@ -12,6 +12,13 @@
 
 \LoadClass{article}
 \RequirePackage{etoolbox}
+% pdfx (PDF/A) loads xcolor internally; preloading xcolor avoids pdfx passing
+% the obsolete xcolor option `hyperref` (TeX Live 2025 warns about it).
+\RequirePackage{xcolor}
+% pdfx also emits a benign informational warning about forcing RGB colors for
+% PDF/A compliance; silence just that message.
+\RequirePackage{silence}
+\WarningFilter{pdfx}{Setting all color commands to rgb}
 \RequirePackage[a-1b]{pdfx}
 \RequirePackage{accsupp}
 \RequirePackage[margin=2cm]{geometry}
@@ -53,9 +60,7 @@
         \urlstyle{same}}
 \fi
 
-\RequirePackage{xcolor}
 \RequirePackage{array}
-\RequirePackage{calc}
 
 \definecolor{LightGrey}{HTML}{666666}
 \definecolor{BlueBlack}{HTML}{0B5394} % 0B5394
@@ -154,63 +159,30 @@
 \newcommand{\cvsectionfont}{\large\bfseries\MakeUppercase}
 \newcommand{\cvsubsectionfont}{\normalsize\bfseries}
 
-%% Vertical shift applied to the name block inside the header
-%% (positive values move the name downward)
-\newlength{\headernamevshift}
-\setlength{\headernamevshift}{0pt}
-\newcommand{\setheadernamevshift}[1]{\setlength{\headernamevshift}{#1}}
-
 %% Horizontal shift applied between name block and personal info block
 %% (useful to align contact info with the right paracol column)
 \newlength{\headerinfoshift}
 \setlength{\headerinfoshift}{0.08in}
 
-%% Column ratio used for both header + paracol body (left column fraction).
-%% Use \setcvcolumnratio{<fraction>} in your document (e.g. 0.65).
-\newcommand{\cvcolumnratio}{0.65}
-\newcommand{\setcvcolumnratio}[1]{%
-    \renewcommand{\cvcolumnratio}{#1}%
-    \ifcsdef{columnratio}{\columnratio{#1}}{}%
-}
-
-%% Header sizing knobs
-\newlength{\headerphotodiam}
-\setlength{\headerphotodiam}{3.2cm}
-\newlength{\headerphotoradius}
-\setlength{\headerphotoradius}{0.5\headerphotodiam}
-\newlength{\cvleftcolwidth}
-\newlength{\cvrightcolwidth}
-
 \newcommand{\makecvheader}{%
-    \setlength\tabcolsep{0pt}%
-    %% Match the body two-column layout: widths based on \textwidth and \columnsep.
-    %% (\columnsep is set via geometry in resume.tex)
-    \pgfmathsetlength{\cvleftcolwidth}{\cvcolumnratio*(\textwidth-\columnsep)}%
-    \pgfmathsetlength{\cvrightcolwidth}{(1-\cvcolumnratio)*(\textwidth-\columnsep)}%
-    \begin{tabular*}{\textwidth}{@{}p{\cvleftcolwidth}@{\hspace{\columnsep}}p{\cvrightcolwidth}@{}}%
+    \setlength\tabcolsep{0pt}
+    \begin{tabular}{l@{\hspace{\headerinfoshift}}l}
         \raggedright
-        \begin{tabular}{@{}p{\headerphotodiam}@{\hspace{1em}}p{\dimexpr\cvleftcolwidth-\headerphotodiam-1em\relax}@{}}%
-            \parbox[c][\headerphotodiam][c]{\headerphotodiam}{%
-                \centering
-                \begin{tikzpicture}[baseline=(photo.center)]
-                    \clip (0,0) circle (\headerphotoradius);
-                    \node (photo) at (0,0) {\includegraphics[width=\headerphotodiam]{static/profile_offwhite.png}};
-                \end{tikzpicture}%
-            }
-            &
-            \parbox[c][\headerphotodiam][c]{\dimexpr\cvleftcolwidth-\headerphotodiam-1em\relax}{%
-                \vspace*{\headernamevshift}%
-                {\namefont\color{name}{\@name}\par}%
-            }
+        \begin{minipage}{0.18\textwidth}  
+            \begin{tikzpicture}[baseline=0]
+                \clip (0,0) circle (1.5cm);
+                \node at (-0.05,-0.2) {\includegraphics[width=6cm]{static/profile_offwhite.png}};
+            \end{tikzpicture}
+        \end{minipage}\hfill
+        \begin{minipage}{0.487\textwidth}
+            {\namefont\color{name}{\@name}\par}
+        \end{minipage}
+        &\begin{tabular}{>{\color{accent}}l}
+            \personalinfofont\@personalinfo\par
         \end{tabular}
-        &
-        \parbox[c][\headerphotodiam][c]{\cvrightcolwidth}{%
-            \raggedright
-            {\personalinfofont\@personalinfo\par}%
-        }%
-    \end{tabular*}%
-    \vspace{8pt}%
-}
+    \hfill%
+    \end{tabular}
+    \vspace{6pt}}
 
 \newcommand{\cvsection}[2][]{%
     \nointerlineskip\vspace{18pt}%
