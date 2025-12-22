@@ -55,6 +55,7 @@
 
 \RequirePackage{xcolor}
 \RequirePackage{array}
+\RequirePackage{calc}
 
 \definecolor{LightGrey}{HTML}{666666}
 \definecolor{BlueBlack}{HTML}{0B5394} % 0B5394
@@ -164,26 +165,52 @@
 \newlength{\headerinfoshift}
 \setlength{\headerinfoshift}{0.08in}
 
+%% Column ratio used for both header + paracol body (left column fraction).
+%% Use \setcvcolumnratio{<fraction>} in your document (e.g. 0.65).
+\newcommand{\cvcolumnratio}{0.65}
+\newcommand{\setcvcolumnratio}[1]{%
+    \renewcommand{\cvcolumnratio}{#1}%
+    \ifcsdef{columnratio}{\columnratio{#1}}{}%
+}
+
+%% Header sizing knobs
+\newlength{\headerphotodiam}
+\setlength{\headerphotodiam}{3.2cm}
+\newlength{\headerphotoradius}
+\setlength{\headerphotoradius}{0.5\headerphotodiam}
+\newlength{\cvleftcolwidth}
+\newlength{\cvrightcolwidth}
+
 \newcommand{\makecvheader}{%
-    \setlength\tabcolsep{0pt}
-    \begin{tabular}{l@{\hspace{\headerinfoshift}}l}
+    \setlength\tabcolsep{0pt}%
+    %% Match the body two-column layout: widths based on \textwidth and \columnsep.
+    %% (\columnsep is set via geometry in resume.tex)
+    \pgfmathsetlength{\cvleftcolwidth}{\cvcolumnratio*(\textwidth-\columnsep)}%
+    \pgfmathsetlength{\cvrightcolwidth}{(1-\cvcolumnratio)*(\textwidth-\columnsep)}%
+    \begin{tabular*}{\textwidth}{@{}p{\cvleftcolwidth}@{\hspace{\columnsep}}p{\cvrightcolwidth}@{}}%
         \raggedright
-        \begin{minipage}{0.18\textwidth}  
-            \begin{tikzpicture}[baseline=0]
-                \clip (0,0) circle (1.5cm);
-                \node at (-0.05,-0.2) {\includegraphics[width=6cm]{static/profile_offwhite.png}};
-            \end{tikzpicture}
-        \end{minipage}\hfill
-        \begin{minipage}{0.487\textwidth}
-            \vspace*{\headernamevshift}
-            {\namefont\color{name}{\@name}\par}
-        \end{minipage}
-        &\begin{tabular}{>{\color{accent}}l}
-            \personalinfofont\@personalinfo\par
+        \begin{tabular}{@{}p{\headerphotodiam}@{\hspace{1em}}p{\dimexpr\cvleftcolwidth-\headerphotodiam-1em\relax}@{}}%
+            \parbox[c][\headerphotodiam][c]{\headerphotodiam}{%
+                \centering
+                \begin{tikzpicture}[baseline=(photo.center)]
+                    \clip (0,0) circle (\headerphotoradius);
+                    \node (photo) at (0,0) {\includegraphics[width=\headerphotodiam]{static/profile_offwhite.png}};
+                \end{tikzpicture}%
+            }
+            &
+            \parbox[c][\headerphotodiam][c]{\dimexpr\cvleftcolwidth-\headerphotodiam-1em\relax}{%
+                \vspace*{\headernamevshift}%
+                {\namefont\color{name}{\@name}\par}%
+            }
         \end{tabular}
-    \hfill%
-    \end{tabular}
-    \vspace{6pt}}
+        &
+        \parbox[c][\headerphotodiam][c]{\cvrightcolwidth}{%
+            \raggedright
+            {\personalinfofont\@personalinfo\par}%
+        }%
+    \end{tabular*}%
+    \vspace{8pt}%
+}
 
 \newcommand{\cvsection}[2][]{%
     \nointerlineskip\vspace{18pt}%
