@@ -1,61 +1,23 @@
-%%=====================================
-%% DODI: Don't Over-Design It
-%% A resume and CV template made by Garland Culbreth (culbreth.garland@gmail.com)
-%% (v1.0.0, 2021-09-04)
-%%
-%% It is a heavily modified derivative of altacv.cls v1.6.2
-%% https://github.com/liantze/AltaCV
-%%
-%% It may be distributed and/or modified under the
-%% conditions of the LaTeX Project Public License, either version 1.3
-%% of this license or (at your option) any later version.
-%% The latest version of this license is in
-%%    http://www.latex-project.org/lppl.txt
-%% and version 1.3 or later is part of all distributions of LaTeX
-%% version 2003/12/01 or later.
-%%
-%%=====================================
+%% DODIresume (v1.0.0, 2021-09-04). Derived from AltaCV.
+%% LPPL-1.3c-or-later.
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesClass{dodiresume}[2021-09-04 DODIresume v1.0.0, a simple two column LaTeX resume, derived from AltaCV v1.6.2.]
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{extarticle}}
 \newif\if@raggedtwoe
 \DeclareOption{ragged2e}{\@raggedtwoetrue}
-%% altacv v1.3: load hyperref for clickable hyperlinks
 \newif\if@withhyper
 \DeclareOption{withhyper}{\@withhypertrue}
 \ProcessOptions\relax
 
 \LoadClass{article}
-%% altacv v1.3.2 Hopefully this helps make the PDF
-%% file more 'friendly' with copy-paste etc
-%% altacv v1.6.1 Temporary fix for pdfx incompatibility; see https://tex.stackexchange.com/a/610445
 \RequirePackage{etoolbox}
-%% TeX Live 2025: some pdfx/xcolor informational warnings are noisy but harmless.
-%% Filter only the specific known messages (keep other warnings visible).
-\RequirePackage{silence}
-\WarningFilter{xcolor}{Package option `hyperref' is obsolete and ignored}
-\WarningFilter{pdfx}{Setting all color commands to rgb}
-\@ifl@t@r\fmtversion{2021-06-01}%
-    {\AddToHook{package/xmpincl/after}{%
-        \@ifundefined{mcs@xmpincl@patchFile}{}{%
-            % Try to apply the historical patch, but don't warn if it no longer applies.
-            \patchcmd\mcs@xmpincl@patchFile{\if\par}{\ifx\par}{}{}%
-        }%
-    }}{}
 \RequirePackage[a-1b]{pdfx}
-%% altacv v1.3.3 Temporary fix for pdfx and biblatex incompatibility
-%% (Thanks to @badetitou for highlighting this issue)
-%% https://github.com/plk/biblatex/issues/1044
-%% Will be removed when fix is released in biblatex 3.16
-% \catcode30=12
 \RequirePackage{accsupp}
 \RequirePackage[margin=2cm]{geometry}
 \RequirePackage{ifxetex,ifluatex}
-\RequirePackage{scrlfile}
 \RequirePackage{xparse}
 
-%% altacv v1.1.5: added for convenience
 \newif\ifxetexorluatex
 \ifxetex
     \xetexorluatextrue
@@ -70,8 +32,6 @@
 \ifxetexorluatex
     \RequirePackage{fontspec}
 \else
-    %% altacv v1.3.2 attempts to make ligatures
-    %% copy-paste as normal characters
     \RequirePackage{cmap}
     \RequirePackage[utf8]{inputenc}
     \RequirePackage[T1]{fontenc}
@@ -94,57 +54,41 @@
 \fi
 
 \RequirePackage{xcolor}
+\RequirePackage{array}
 
 \definecolor{LightGrey}{HTML}{666666}
 \definecolor{BlueBlack}{HTML}{0B5394} % 0B5394
 \definecolor{GdocLink}{HTML}{1155CC}
 \colorlet{name}{BlueBlack}
-\colorlet{tagline}{black}
 \colorlet{heading}{BlueBlack}
 \colorlet{subheading}{black}
 \colorlet{accent}{black}
 \colorlet{body}{LightGrey}
 \colorlet{link}{GdocLink}
 \newcommand{\itemmarker}{{\small\textbullet}}
-\newcommand{\ratingmarker}{\faCircle}
 
 \RequirePackage{tikz}
-\usetikzlibrary{arrows}
-\RequirePackage[skins]{tcolorbox}
 \RequirePackage[inline]{enumitem}
 \setlist{leftmargin=*,labelsep=0.5em,nosep,itemsep=0.25\baselineskip,after=\vspace{0.25\baselineskip}}
 \setlist[itemize]{label=\itemmarker}
 \RequirePackage{graphicx}
-\RequirePackage{multirow,tabularx}
 \RequirePackage{changepage}
-% \RequirePackage{dashrule}
 
 \setlength{\parindent}{0pt}
-\newcommand{\divider}{\textcolor{body!30}{\hdashrule{\linewidth}{0.6pt}{0.5ex}}\medskip}
 
 \newenvironment{fullwidth}{%
     \begin{adjustwidth}{}{\dimexpr-\marginparwidth-\marginparsep\relax}}
     {\end{adjustwidth}}
 
-%% altacv v1.3.1 \detokenize will break UTF-8 in pdflatex
-%% Using alternative from https://tex.stackexchange.com/a/530911/226
 \newcommand{\utffriendlydetokenize}[1]{%
 \scantokens{%
     \catcode`\_=12%
-    % \catcode`\^=12%
-    % \catcode`\{=12%
-    % \catcode`\}=12%
     \catcode`\&=12%
     \catcode`\$=12%
     \catcode`\#=12%
     \catcode`\~=12%
-    % \catcode`\\=12%
     {#1}}}
 
-%% altacv v1.3: Incorporating hyperlinks
-%% altacv v1.3.1: using \unfriendlydetokenize to avoid breaking unicode
-%% altacv v1.6: Use accsupp so that when copying/pasting the icon from PDF to a text
-%% file, the icon name is pasted
 \ExplSyntaxOn
 \NewDocumentCommand{\printinfo}{m m o}{%
     \BeginAccSupp{method=escape,ActualText={#1:~#2}}
@@ -163,8 +107,6 @@
 }%
 
 
-%% altacv v1.3: Exploring convenient creation of fields
-%% altacv v1.6: Add starred mode to create \printinfo with full URL
 \NewDocumentCommand{\NewInfoField}{s m m o}{%
     \IfBooleanF{#1}{
         \IfNoValueF{#4}{\csdef{#2 hyperprefix}{#4}}%
@@ -195,7 +137,6 @@
 \ExplSyntaxOff
 
 \newcommand{\name}[1]{\def\@name{#1}}
-\newcommand{\tagline}[1]{\def\@tagline{#1}}
 \newcommand{\personalinfo}[1]{\def\@personalinfo{#1}}
 \NewInfoField{email}{}[mailto:]
 \NewInfoField{mailaddress}{}
@@ -212,6 +153,12 @@
 \newcommand{\cvsectionfont}{\large\bfseries\MakeUppercase}
 \newcommand{\cvsubsectionfont}{\normalsize\bfseries}
 
+%% Vertical shift applied to the name block inside the header
+%% (positive values move the name downward)
+\newlength{\headernamevshift}
+\setlength{\headernamevshift}{0pt}
+\newcommand{\setheadernamevshift}[1]{\setlength{\headernamevshift}{#1}}
+
 %% Horizontal shift applied between name block and personal info block
 %% (useful to align contact info with the right paracol column)
 \newlength{\headerinfoshift}
@@ -224,10 +171,11 @@
         \begin{minipage}{0.18\textwidth}  
             \begin{tikzpicture}[baseline=0]
                 \clip (0,0) circle (1.5cm);
-                \node at (-0.05,-0.2) {\includegraphics[width=6cm]{static/landscape_offwhite.png}};
+                \node at (-0.05,-0.2) {\includegraphics[width=6cm]{static/profile_offwhite.png}};
             \end{tikzpicture}
         \end{minipage}\hfill
         \begin{minipage}{0.487\textwidth}
+            \vspace*{\headernamevshift}
             {\namefont\color{name}{\@name}\par}
         \end{minipage}
         &\begin{tabular}{>{\color{accent}}l}
