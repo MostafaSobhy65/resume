@@ -171,11 +171,13 @@
             \end{tikzpicture}
         \end{minipage}\hfill
         \begin{minipage}{0.487\textwidth}
+            \vspace{14pt}
             {\namefont\color{name}{\@name}\par}
         \end{minipage}
-        &\begin{tabular}{>{\color{accent}}l}
+        \begin{minipage}{0.487\textwidth}
+            \vspace{9pt}
             \personalinfofont\@personalinfo\par
-        \end{tabular}
+        \end{minipage}
     \hfill%
     \end{tabular}
     \vspace{6pt}}
