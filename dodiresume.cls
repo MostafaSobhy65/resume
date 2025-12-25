@@ -187,9 +187,9 @@
     \vspace{0pt}}
 
 \newcommand{\cvsubsection}[1]{%
-    \vspace{12pt}
+    \vspace{6pt}
     {\color{subheading}\normalsize\bfseries{#1}\par}
-    \vspace{6pt}}
+    \vspace{3pt}}
 
 \newcommand{\cvevent}[4]{%
     \vspace{6pt}
