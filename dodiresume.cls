@@ -167,7 +167,7 @@
         \begin{minipage}{0.18\textwidth}  
             \begin{tikzpicture}[baseline=0]
                 \clip (0,0) circle (1.5cm);
-                \node at (-0.05,-0.2) {\includegraphics[width=6cm]{static/profile_offwhite.png}};
+                \node at (-0.05,-0.2) {\includegraphics[width=6cm]{static/profile_transparent.png}};
             \end{tikzpicture}
         \end{minipage}\hfill
         \begin{minipage}{0.487\textwidth}
