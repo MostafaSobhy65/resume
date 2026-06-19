@@ -62,7 +62,7 @@
 
 \RequirePackage{array}
 
-\definecolor{LightGrey}{HTML}{666666}
+\definecolor{LightGrey}{HTML}{444444}
 \definecolor{BlueBlack}{HTML}{0B5394} % 0B5394
 \definecolor{GdocLink}{HTML}{1155CC}
 \colorlet{name}{BlueBlack}
@@ -164,18 +164,16 @@
     \setlength\tabcolsep{0pt}
     \begin{tabular}{l@{\hspace{\headerinfoshift}}l}
         \raggedright
-        \begin{minipage}{0.18\textwidth}  
+        \begin{minipage}[c]{0.18\textwidth}  
             \begin{tikzpicture}[baseline=0]
                 \clip (0,0) circle (1.5cm);
                 \node at (0,-0.25) {\includegraphics[width=3cm]{static/headshot.png}};
             \end{tikzpicture}
         \end{minipage}\hfill
-        \begin{minipage}{0.487\textwidth}
-            \vspace{14pt}
+        \begin{minipage}[c]{0.487\textwidth}
             {\namefont\color{name}{\@name}\par}
         \end{minipage}
-        \begin{minipage}{0.3\textwidth}
-            \vspace{9pt}
+        \begin{minipage}[c]{0.3\textwidth}
             \personalinfofont\@personalinfo\par
         \end{minipage}
     \hfill%
@@ -183,7 +181,7 @@
     \vspace{6pt}}
 
 \newcommand{\cvsection}[2][]{%
-    \nointerlineskip\vspace{18pt}%
+    \nointerlineskip\vspace{14pt}%
     \ifstrequal{#1}{}{}{\marginpar{\vspace*{\dimexpr1pt-\baselineskip}\raggedright\input{#1}}}%
     {\color{heading}\cvsectionfont{#2}}
     \vspace{0pt}}
@@ -196,7 +194,7 @@
 \newcommand{\cvevent}[4]{%
     \vspace{6pt}
     {\color{accent}\textbf{#1}}
-    \ifstrequal{#2}{}{}{\textit{\color{accent}--~#2,}}
+    \ifstrequal{#2}{}{}{{\color{accent}--~#2,}}
     \ifstrequal{#3}{}{}{{\color{accent}#3}}
     \par
     \ifstrequal{#4}{}{}{{\small\makebox[0.5\linewidth][l]{#4}}}
