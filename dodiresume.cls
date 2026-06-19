@@ -167,14 +167,14 @@
         \begin{minipage}{0.18\textwidth}  
             \begin{tikzpicture}[baseline=0]
                 \clip (0,0) circle (1.5cm);
-                \node at (0,-0.4) {\includegraphics[width=3cm]{static/headshot2.png}};
+                \node at (0,-0.25) {\includegraphics[width=3cm]{static/headshot.png}};
             \end{tikzpicture}
         \end{minipage}\hfill
         \begin{minipage}{0.487\textwidth}
             \vspace{14pt}
             {\namefont\color{name}{\@name}\par}
         \end{minipage}
-        \begin{minipage}{0.487\textwidth}
+        \begin{minipage}{0.3\textwidth}
             \vspace{9pt}
             \personalinfofont\@personalinfo\par
         \end{minipage}
@@ -199,7 +199,7 @@
     \ifstrequal{#2}{}{}{\textit{\color{accent}--~#2,}}
     \ifstrequal{#3}{}{}{{\color{accent}#3}}
     \par
-    \ifstrequal{#4}{}{}{{\small\makebox[0.5\linewidth][l]{\MakeUppercase{#4}}}}
+    \ifstrequal{#4}{}{}{{\small\makebox[0.5\linewidth][l]{#4}}}
     \normalsize\par}
 
 \newcommand{\cvskill}[1]{
