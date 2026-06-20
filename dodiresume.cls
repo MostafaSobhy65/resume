@@ -194,8 +194,8 @@
 \newcommand{\cvevent}[4]{%
     \vspace{6pt}
     {\color{accent}\textbf{#1}}
-    \ifstrequal{#2}{}{}{{\color{accent}--~#2,}}
-    \ifstrequal{#3}{}{}{{\color{accent}#3}}
+    \ifstrequal{#2}{}{}{{\color{accent}--~#2}}
+    \ifstrequal{#3}{}{}{{\color{accent}, #3}}
     \par
     \ifstrequal{#4}{}{}{{\small\makebox[0.5\linewidth][l]{#4}}}
     \normalsize\par}
